@@ -44,5 +44,8 @@ If you want to use a different file (for example a different machine but based o
 dots some_file.dots.toml
 ```
 
+## Todo
+- [ ] Allow to "undeploy", eg. to automatically remove symlinks created by `dots`
+
 ## License
 This is licensed under the [MIT](LICENSE) license.
