@@ -2,7 +2,7 @@ use std::env;
 use std::path::PathBuf;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 pub struct Config {
     #[serde(default = "default_dots_dir")]
     pub dots_dir: PathBuf,
@@ -10,7 +10,7 @@ pub struct Config {
     pub dots: Vec<Dot>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 pub struct Dot {
     #[serde(rename = "src")]
     pub source: PathBuf,
