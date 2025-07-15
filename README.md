@@ -8,6 +8,13 @@ generally a bit _clunky_.
 `dots` is a machine-agnostic, fs-agnostic and structure-agnostic deployer for dotfiles stored in an arbitrary directory. 
 Written in rust, it's :sparkles: _blazingly fast_ :sparkles: and easy to use. 
 
+## Installation
+
+To install `dots`, head over to [the releases page](https://github.com/maxbossing/dots/releases/latest) and choose the 
+appropriate option for your system. `dots` currently only supports linux, but in glibc and MUSL variants.
+
+To build from source, simply clone and run `cargo build --release`.
+
 ## dots.toml
 
 At the core, `dots` just symlinks arbitrary files and directories as specified by a configuration file. By default, `dots`
