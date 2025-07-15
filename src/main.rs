@@ -39,7 +39,7 @@ fn main() {
 
     let prepended_mappings = config.dots.iter().map(|m|
         Dot {
-            source: env::current_dir().expect("failed to get current dir").join(&m.source),
+            source: config.dots_dir.join(&m.source),
             destination: prepend_user_dir(&m.destination)
         }
     );
