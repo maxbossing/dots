@@ -1,30 +1,20 @@
 use std::env;
+use std::fs::{remove_file, symlink_metadata};
 use std::os::unix::fs::symlink;
 use std::path::PathBuf;
 use std::process::exit;
+use clap::Parser;
 use dirs::{home_dir};
+use crate::cli::{Cli, CliCommand};
 use crate::config::{Config, ConfigLoadError, Dot};
 
 mod config;
+mod cli;
 
 fn main() {
-    let args = env::args().skip(1).collect::<Vec<String>>();
-
-    if args.len() > 1 {
-        eprintln!("usage: {} [config]", args[0]);
-        exit(1);
-    }
-
-    if args.len() == 1 && (args[0] == "-h" || args[0] == "--help") {
-        println!("Usage: {} [config]", args[0]);
-        println!("options:");
-        println!("  -h, --help        Print help information");
-        println!("By default, dots will look for a bummsdots.toml file in the current directory");
-        println!("This can be changed by passing the filename");
-        exit(0);
-    }
-
-    let config = Config::load(args.get(0).map(|o| PathBuf::from(o))).map_err(|err|
+    let cli = Cli::parse();
+    
+    let config = Config::load(cli.config).map_err(|err|
         match err {
             ConfigLoadError::IOError(err) => {
                 eprintln!("failed to load config file: {}", err);
@@ -36,19 +26,49 @@ fn main() {
             }
         }
     ).unwrap();
+    
+    match cli.command {
+        CliCommand::Deploy => deploy_dots(config.dots, config.dots_dir),
+        CliCommand::Undeploy => {}
+    }
+}
 
-    let prepended_mappings = config.dots.iter().map(|m|
+fn deploy_dots(dots: Vec<Dot>, dots_dir: PathBuf) {
+    let prepended_dots = dots.iter().map(|m|
         Dot {
-            source: config.dots_dir.join(&m.source),
+            source: dots_dir.join(&m.source),
             destination: prepend_user_dir(&m.destination)
         }
     );
-
-    for dot in prepended_mappings {
+    
+    for dot in prepended_dots {
         println!("linking from {} to {}", dot.source.display(), dot.destination.display());
         let _ = symlink(&dot.source, &dot.destination).map_err(|err|
             eprintln!("failed to symlink: {}", err.to_string())
         );
+    }
+}
+
+fn undeploy_dots(dots: Vec<Dot>, dots_dir: PathBuf) {
+    let prepended_dots = dots.iter().map(|m|
+        Dot {
+            source: dots_dir.join(&m.source),
+            destination: prepend_user_dir(&m.destination)
+        }
+    );
+
+    for dot in prepended_dots {
+        println!("unlinking  {}", dot.destination.display());
+        let metadata = symlink_metadata(dot.destination.clone());
+        if metadata.is_err() {
+            eprintln!("failed to query metadata for {}: {}", dot.destination.display(), metadata.err().unwrap());
+            continue
+        }
+        if metadata.ok().unwrap().is_symlink() {
+            let _ = remove_file(dot.destination).map_err(|err| 
+                eprintln!("failed to remove symlink: {}", err)
+            );
+        }
     }
 }
 
