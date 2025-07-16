@@ -1,5 +1,6 @@
 [package]
 name = "dots"
+description = "System-agnostic dotfile-deployer "
 version = "1.0.0"
 edition = "2024"
 
