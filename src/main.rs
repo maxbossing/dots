@@ -1,12 +1,7 @@
-use std::env;
-use std::fs::{remove_file, symlink_metadata};
-use std::os::unix::fs::symlink;
-use std::path::PathBuf;
 use std::process::exit;
 use clap::Parser;
-use dirs::{home_dir};
 use crate::cli::{Cli, CliCommand};
-use crate::config::{Config, ConfigLoadError, Dot};
+use crate::config::{Config, ConfigLoadError};
 use crate::dots::{deploy_dots, unlink_dots};
 
 mod config;
