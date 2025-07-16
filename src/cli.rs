@@ -13,5 +13,5 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum CliCommand {
     Deploy,
-    Undeploy
+    Unlink
 }

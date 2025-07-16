@@ -31,6 +31,6 @@ fn main() {
     
     match cli.command {
         CliCommand::Deploy => deploy_dots(config.dots, config.dots_dir),
-        CliCommand::Undeploy => {}
+        CliCommand::Unlink => unlink_dots(config.dots, config.dots_dir),
     }
 }
