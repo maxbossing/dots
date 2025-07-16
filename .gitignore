@@ -1,2 +1,6 @@
 .idea/
 target/
+*.dots.toml
+dots.toml
+tests/
+tests.*/
