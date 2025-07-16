@@ -15,10 +15,17 @@ appropriate option for your system. `dots` currently only supports linux, but in
 
 To build from source, simply clone and run `cargo build --release`.
 
+## Usage
+
+At the core, `dots` just symlinks arbitrary files and directories as specified by a configuration file. Refer to the [dots.toml](#dotstoml) section for an example.
+
+To deploy a set of files, use `dots deploy`.
+
+If you want to un-deploy a set of dots (removing the links created), you can use `dots unlink`
+
 ## dots.toml
 
-At the core, `dots` just symlinks arbitrary files and directories as specified by a configuration file. By default, `dots`
-will look for a `dots.toml` file in the current directory.
+By default, `dots` will look for a `dots.toml` file in the current directory.
 
 Example `dots.toml`:
 ```toml
@@ -41,11 +48,11 @@ dest = ".tmux.conf"
 
 If you want to use a different file (for example a different machine but based on the same files), pass a path to the executable
 ```bash
-dots some_file.dots.toml
+dots deploy --config some_file.dots.toml
 ```
 
 ## Todo
-- [ ] Allow to "undeploy", eg. to automatically remove symlinks created by `dots`
+- [x] Allow to "undeploy", eg. to automatically remove symlinks created by `dots`
 
 ## License
 This is licensed under the [MIT](LICENSE) license.
