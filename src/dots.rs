@@ -8,7 +8,7 @@ pub fn deploy_dots(dots: Vec<Dot>, dots_dir: PathBuf) {
     let prepended_dots = dots.iter().map(|m|
         Dot {
             source: dots_dir.join(&m.source),
-            destination: prepend_user_dir(&m.destination)
+            destination: if m.destination.is_absolute() { m.destination.clone() } else { prepend_user_dir(&m.destination) }
         }
     );
 

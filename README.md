@@ -33,11 +33,11 @@ dots_dir = "/home/anon/dots" # If omitted, defaults to working directory
 
 [[dot]]
 src = "nvim" # Resolved against dots_dir
-dest = ".config/nvim" # Resolved against $HOME
+dest = ".config/nvim" # Relative paths are resolved against $HOME
 
 [[dot]]
-src = "fish"
-dest = ".config/fish"
+src = "Xmodmap"
+dest = "/etc/X11" # Absolute paths are respected
 
 [[dot]]
 src = "tmux.conf"
@@ -53,7 +53,7 @@ dots deploy --config some_file.dots.toml
 
 ## Todo
 - [x] Allow to "undeploy", eg. to automatically remove symlinks created by `dots`
-- [ ] Absolute Paths in dest field
+- [x] Absolute Paths in dest field
 
 ## License
 This is licensed under the [MIT](LICENSE) license.
