@@ -53,6 +53,7 @@ dots deploy --config some_file.dots.toml
 
 ## Todo
 - [x] Allow to "undeploy", eg. to automatically remove symlinks created by `dots`
+- [ ] Absolute Paths in dest field
 
 ## License
 This is licensed under the [MIT](LICENSE) license.
