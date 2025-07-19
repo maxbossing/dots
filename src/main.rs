@@ -7,6 +7,7 @@ use crate::dots::{deploy_dots, unlink_dots};
 mod config;
 mod cli;
 mod dots;
+mod platform;
 
 fn main() {
     let cli = Cli::parse();

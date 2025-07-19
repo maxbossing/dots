@@ -1,8 +1,8 @@
 use std::fs::{remove_file, symlink_metadata};
-use std::os::unix::fs::symlink;
 use std::path::PathBuf;
 use dirs::home_dir;
 use crate::config::Dot;
+use crate::platform;
 
 pub fn deploy_dots(dots: Vec<Dot>, dots_dir: PathBuf) {
     let prepended_dots = dots.iter().map(|m|
@@ -14,7 +14,7 @@ pub fn deploy_dots(dots: Vec<Dot>, dots_dir: PathBuf) {
 
     for dot in prepended_dots {
         println!("linking from {} to {}", dot.source.display(), dot.destination.display());
-        let _ = symlink(&dot.source, &dot.destination).map_err(|err|
+        let _ = platform::platform::symlink(&dot.source, &dot.destination).map_err(|err|
             eprintln!("failed to symlink: {}", err.to_string())
         );
     }
